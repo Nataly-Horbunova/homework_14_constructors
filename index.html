@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructors</title>
+</head>
+
+<body>
+    <script>
+
+        const studentsList = [
+            {
+                name: 'Alex',
+                surname: 'Johnson',
+                birthYear: 1991
+            },
+            {
+                name: 'John',
+                surname: 'Robertson',
+                birthYear: 1990
+            },
+            {
+                name: 'Nickole',
+                surname: 'Stone',
+                birthYear: 1992
+            }
+
+        ]
+
+        function Student(name, surname, birthYear) {
+            this.name = name;
+            this.surname = surname;
+            this.birthYear = birthYear;
+            this.attending = new Array(10);
+            this.marks = new Array(10);
+
+        }
+
+        Student.prototype.age = function () {
+            return new Date().getFullYear() - this.birthYear;
+        }
+
+        Student.prototype.present = function () {
+            for (let i = 0; i < 10; i++) {
+                if (this.attending[i] === undefined) {
+                    this.attending[i] = true;
+                    break;
+                }
+            }
+        }
+
+        Student.prototype.absent = function () {
+            for (let i = 0; i < 10; i++) {
+                if (this.attending[i] === undefined) {
+                    this.attending[i] = false;
+                    break;
+                }
+            }
+        }
+
+        Student.prototype.mark = function (mark) {
+            for (let i = 0; i < 10; i++) {
+                if (this.marks[i] === undefined) {
+                    this.marks[i] = mark;
+                    break;
+                }
+            }
+        }
+
+        Student.prototype.averageMark = function () {
+            let sum = 0;
+            let marksQty = 0
+
+            for (let i = 0; i < 10; i++) {
+                if (this.marks[i] !== undefined) {
+                    sum += this.marks[i];
+                    marksQty = i + 1;
+                }
+            }
+
+            return sum / marksQty;
+        }
+
+        Student.prototype.averageAttending = function () {
+            let sum = 0;
+            let attendingQty = 0
+
+            for (let i = 0; i < 10; i++) {
+                if (this.attending[i] !== undefined) {
+                    sum += this.attending[i];
+                    attendingQty = i + 1;
+                }
+            }
+            return sum / attendingQty;
+        }
+
+        Student.prototype.summary = function () {
+            const averageMark = this.averageMark();
+            const averageAttending = this.averageAttending();
+            let summary = '';
+
+            if (averageMark > 9 && averageAttending > 0.9) {
+                summary = 'Ути какой молодчинка!';
+            } else if (averageMark > 9 || averageAttending > 0.9) {
+                summary = 'Норм, но можно лучше';
+            } else {
+                summary = 'Редиска!';
+            }
+
+            return summary;
+        }
+
+        const students = studentsList.map(student => new Student(student.name, student.surname, student.birthYear));
+        console.log(students);
+
+    </script>
+
+</body>
+
+</html>
